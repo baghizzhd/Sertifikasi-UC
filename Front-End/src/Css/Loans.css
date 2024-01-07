@@ -1,0 +1,965 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+}
+main {
+  transition: 0.5s;
+  margin: 3.17rem  0 0 0 !important;
+  padding: 0 1rem 0 90px;
+}
+body{
+  font-family: 'Poppins', sans-serif;
+  background-color: #F5F5F5 !important;
+}
+.css-1u9des2-indicatorSeparator {
+  width: 0px !important;
+}
+.css-1xc3v61-indicatorContainer {
+  padding-bottom: 2px;
+  color:black !important;
+  padding: 0 !important;
+  }
+
+
+/* Sidebar */
+nav{
+  background-color: #19333D;
+  position:fixed;
+  top: 0;
+  left: 0;
+  height:100%;
+  width: 14rem;
+  overflow: hidden;
+  transition: 0.5s;
+  z-index: 2;
+}
+.main-nav2{
+  position: fixed;
+  background-color:#19333D;
+ width: 100%;
+  display: flex;
+  align-items: center;
+  height:50px;
+  padding-left: 68px;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  transition: 0.5s;
+  justify-content: space-between;
+}
+.sidebar2{
+  width: 72px;
+  transition: 0.5s;
+}
+.sidebar__logo {
+  display: grid;
+  place-items: center;
+  height: 120px;
+  margin-bottom: 40px;
+}
+
+#overlay3{
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  opacity: 0.46;
+  background-color: rgb(33, 33, 33);
+  z-index: 1;
+  transition: inherit;
+}  
+
+.logo4-1 img{
+  width: 160px;
+  height: 64px;
+  transition: opacity 0.5s ease-in, transform 0.5s ease-in;
+  animation: 0.5s ease-in;
+}
+
+.logo5-1 img{
+  width: 40px;
+  height: 40px;
+  background-color:#7878787e ;
+  border-radius: 10px;
+  transform: scale(1.2);
+  transition: opacity 0.4s ease-out, transform 0.5s ease-out;
+  animation: 0.5s ease-out;
+}
+
+.sidebar__menu {
+  position: relative;
+}
+.sidebar__menu__item {
+  display: flex;
+  align-items: center;
+  place-content: flex-start;
+  padding-left: .75rem;
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: #ffffff;
+  height: 55px;
+  column-gap: 0.5rem;
+  margin-left: .75rem;
+}
+.sidebar__menu__item__icon {
+  margin-right: 1rem;
+}
+
+.sidebar__menu__item.active {
+  color: #000000;
+  background-color: #F4F4EA;
+  width: calc(100% - 25px);
+  border-radius: 10px;
+  z-index: -1;
+  height: 55px;
+}
+
+.sidebar__menu__item:not(.active):hover {
+  background-color: #7878787e;
+  width: calc(100% - 25px);
+  height:55px;
+  z-index: -1;
+  border-radius: 10px;
+  transition: background-color 0.2s ease-in;
+}
+.navbar-icon2{
+  font-size: 1.5rem;
+  margin-top: 1px;
+}
+
+/* Header */
+.mobile-nav-btn{
+color: #ffffff;
+background: transparent;
+outline: none;
+border: none;
+margin: 0 10px;
+  cursor: pointer;
+  display: none;
+}
+.mobile-nav-btn2{
+color: #ffffff;
+background: transparent;
+outline: none;
+border: none;
+margin: 0 10px;
+  cursor: pointer;
+}
+.header-toggle {
+  cursor: pointer;
+  margin-left: 4.5px;
+}
+.imgz{
+  width: 2rem; 
+  height: 2rem;
+}
+
+.space-toggle2 {
+  padding-left: 240px !important;
+  transition: 0.5s;
+}
+.space-toggle2 .mobile-nav-btn2 {
+  margin-left: -16px;
+}
+
+/* Isi Konten */
+
+.sub-box2, .sub-box02, .sub-box02-message {
+  background-color:#FFFFFF;
+  border-radius: 12px;
+  width: 100%;
+  height: auto !important;
+  margin-bottom: 20px;
+  border: 1px solid #d5d5d5;
+}
+
+.sub-box02-chat{
+  overflow-y: auto;
+  height: 60vh;
+  padding: 1.5rem;
+}
+.chat-icon {
+  position: relative;
+  font-size: 3rem;
+  top: -20px;
+}
+.msg_cotainer {
+margin-top: auto;
+margin-bottom: auto;
+margin-left: 10px;
+border-bottom-left-radius: 0.75rem;
+  border-bottom-right-radius: 0.75rem;
+  border-top-right-radius: 0.75rem;
+  max-width: 60%;
+background-color: #EAF0F8;
+  color: #0D082C;
+padding: 10px;
+position: relative;
+  font-size: 16px;
+}
+.msg_time {
+  position: absolute;
+  right: 0;
+  bottom: -22px;
+  color: #726868;
+  font-size: 12px;
+}
+.name-user-right{
+  position: absolute;
+  color: black;
+  right: 0;
+  top: -28px;
+  font-size: 16px;
+  font-weight: 600;
+}
+.name-user-left{
+  position: absolute;
+  color: black;
+  left: 0;
+  top: -28px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.msg_cotainer_send {
+margin-top: auto;
+margin-bottom: auto;
+margin-right: 4px;
+  max-width: 60%;
+border-bottom-left-radius: 0.75rem;
+  border-bottom-right-radius: 0.75rem;
+  border-top-left-radius: 0.75rem;
+background-color: #4175F8;
+  color: #FFFFFF;
+padding: 10px;
+position: relative;
+  font-size: 16px;
+}
+.msg_time_send {
+  position: absolute;
+  left: 0;
+  bottom: -20px;
+  color: #726868;
+  font-size: 12px;
+}
+.sub-box-title{
+  font-size: 18px;
+  font-weight: 600;
+  padding-top: 16px ;
+  padding-left: 40px;
+  margin-bottom: 8px;
+}
+.btn-ChangeTicket{
+  margin-top: 8px;
+  margin-left: 40px;
+  margin-bottom: 8px;
+  margin-right: 28px;
+  padding: 0.5rem 1.25rem;
+  border-radius: 0.375rem !important;
+  font-size: 14px;
+  font-weight: 550;
+}
+.box-title3{
+  padding-left: 40px;
+  margin-bottom: 8px;
+  position: static;
+  display: flex;
+  align-items: center;
+  padding-top: 10px;
+  background-color: #F5F5F5;
+}
+.content-box3{
+  width: calc(100% - 40px);
+  margin-left: 40px;
+  padding-right: 40px;
+  position: static;
+}
+.content-box-title2{
+  font-weight: 600;
+  font-size: 28px;
+}
+.box-title2{
+  position: sticky; 
+  display: flex;
+  align-items: center; 
+  padding: 0.25rem 0 0.25rem 0;
+  margin-bottom: 20px;
+}
+.box-btn2{
+  margin-right: 0.5rem;
+  cursor: pointer; 
+  width: 2.25rem;
+  height: 2.25rem;
+}
+.header-content2{
+  margin-right: 70px;
+  gap: 10px;
+}
+.sub-box-box1{
+  gap: 3rem; 
+  padding-left: 4rem; 
+  padding-right: 4rem;
+  margin-top: 0rem !important;
+}
+.sub-box-box1-col{
+  padding: 0.75rem !important;
+}
+.bawah{
+  margin-bottom: 20px;
+}
+.button-save{
+  background-color: #128965;
+  font-size: 0.875rem;
+  height: 2.1rem;
+  width: 6rem;
+  padding: 0.375rem 0.5rem !important;
+  margin-bottom: 0;
+  text-align: center;
+}
+.button-cancel{
+  margin-right: 0.5rem;
+  font-size: 0.875rem;
+  height: 2.1rem;
+  width: 6rem;
+  padding: 0.375rem 0.5rem !important;
+  margin-bottom: 0;
+  text-align: center;
+}
+.line{
+  height: 0px;
+  margin-bottom: 1rem;
+}
+.sub-box-box1-col-header{
+  margin-bottom: 0.5rem ;
+  font-size: 16px;
+  line-height: 24px;
+}
+input[type=file]::file-selector-button {
+  background-color: #EEEEEE;
+}
+.sub-box-box1-col-input{
+  width: 100%;
+  font-size: 0.875rem; 
+  height: auto;
+  border-radius: 0.375rem; 
+  padding: 0.375rem 0.5rem; 
+}
+.sub-box-box1-col-input-file{
+  width: 100%;
+  font-size: 0.875rem; 
+  height: auto;
+  border-radius: 0.375rem; 
+  padding: 0.375rem 0.5rem; 
+  background-color: #EEEEEE;
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+}
+.sub-box-box1-col-input-desc{
+  width: 100%;
+  font-size: 0.875rem;
+  height: 24vh;
+  box-sizing: border-box;
+  border-radius: 0.375rem;
+  padding: 0.375rem 0.5rem; 
+  text-align: justify;
+}
+.sub-box-box1-col-input-desc::placeholder {
+  font-size: 0.875rem;
+  padding: 0.375rem 0.5rem;
+  text-align: left;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+
+.sub-box-box1-col-button{
+  font-size: 0.875rem; 
+  height: 2rem; 
+  width: 6rem; 
+  padding-top: 0.375rem; 
+  padding-bottom: 0.375rem; 
+  margin-bottom: 0; 
+}
+.custom-button01{
+  border-radius: 0.25rem;
+  height: auto;
+  width: auto;
+  padding: 0.5rem 1rem;
+  color: white;
+  text-align: center;
+  font-size: 14px;
+}
+.input-message{
+  height:auto;
+  background-color: white;
+  border-radius: 0 0 16px 16px;
+  box-shadow: 0 -1px 2px 0 rgba(0, 0, 0, 0.1);
+  align-items: center;
+  place-content: center;
+  padding: 20px 0px 20px 0px; /* top, right, bottom, left */
+}
+.input-message-button > input
+{
+  display: none;
+}
+.input-message-main{
+  display: flex;
+  align-items: center;
+  place-content: center;
+  margin-left: 20px;
+  margin-right: 20px;
+  text-align: center;
+}
+
+.input-message-input{
+  width: 100%;
+
+}
+.input-message-input-01{
+  border-radius: 8px;
+  box-shadow: inset 0 0 0 1.5px #adb5c1;
+  margin: 0px 0px 0px 0px; /* top, right, bottom, left */
+  width: 100%;
+  font-size: 18px;
+  padding: 8px 16px 8px 16px;
+  display: flex;
+  align-items: center;
+  text-align: left;
+  height: 44px;
+  overflow-y: scroll;
+}
+
+.btn-attach-icon{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  width: 32px;
+  cursor: pointer;
+  color: #858a92c7;
+  margin-right: 5px;
+}
+.btn-send-icon{
+  margin-left: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 32px;
+  width: 32px;
+  cursor: pointer;
+  color: #2056E0;
+}
+.chat{
+  margin-bottom: 1.75rem;
+}
+.custom-success-alert{
+  background-color: #128965 !important;
+}
+/* Add this to your CSS or stylesheet */
+.custom-error-alert {
+  background-color: #da3c3c !important; /* Red color */
+}
+
+/* Extra small devices (portrait phones, less than 576px) */
+@media (max-width: 575.98px) {
+  .btn-ChangeTicket{
+    margin-right: 8px !important;
+    padding: 0.25rem .6rem !important;
+    font-size: 9px !important;
+  }
+  .css-166bipr-Input{
+    margin-top: -10px !important;
+  }
+  .css-1dimb5e-singleValue {
+    margin-top: 2.35px;
+  }
+  .css-1hb7zxy-IndicatorsContainer {
+    align-items: baseline !important;
+    padding-top: 2px !important;
+}
+  .css-qbdosj-Input {
+    grid-area: auto !important;
+  }
+  .css-1ibigt0-placeholder {
+    padding-top: 2px;
+  }
+  .main-nav2{
+    align-items: center;
+    padding-left:0;
+}
+  .sidebar2{
+    transform: translateX(-100%);
+  }
+  .content-box3 {
+    margin-left: 10px;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    position: absolute !important;
+    width: calc(100% - 20px) !important;
+  }
+  main{
+      padding: 0 0 0 0 !important;
+  }
+  .header-content2 {
+    margin-right: 30px !important;
+    gap: 7px !important;
+}
+  .content-box-title2{
+      font-size: 18px !important;
+  }
+  .mobile-nav-btn2{
+      display: none;
+  }
+  .mobile-nav-btn{
+      display: flex !important;
+      align-items: center;
+  }
+  .space-toggle2 {
+      padding-left: 0px !important;
+  }
+  .mobile-nav-btn{
+      transition: 0.5s ease;
+      padding-left: 0px !important;
+  }
+  .space-toggle2 .mobile-nav-btn {
+      padding-left: 215px !important;
+      transition: padding-left 0.5s ease;
+  }
+  .custom-button01 {
+    padding: 0.25rem 0.6rem;
+    font-size: 9px;
+}
+  .box-title3{
+    padding-top: 7px;
+    margin-bottom: 5px;
+    padding-left: 20px;
+  }
+  .box-btn2 {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  .content-box-title2 {
+      font-size: 20px !important;
+  }
+  .sub-box-box1{
+    gap: 0rem; 
+    padding-left: 0.5rem; 
+    padding-right: 0.5rem;
+  }
+  .sub-box-box1-col{
+    padding: 0.3rem !important;
+  }
+  .sub-box-box1-col-header {
+    font-size: 12px !important;
+    margin-bottom: 0.3rem !important;
+}
+  .sub-box-box1-col-input, .sub-box-box1-col-input-file {
+    font-size: 11px;
+    height: 1.7rem;
+    padding: 0.25rem 0.4rem;
+  }
+  input[type=file]::file-selector-button {
+    background-color: #EEEEEE;
+    height: 100%;
+    padding: 0px 5px;
+}
+  .sub-box-box1-col-input-desc{
+    font-size: 12px;
+    padding: 0.25rem 0.4rem;
+  }
+  .chat {
+    margin-bottom: 1.3rem;
+}
+  .chat-icon {
+      font-size: 1.75rem;
+      top: -14px;
+  }
+  .msg_cotainer_send, .msg_cotainer{
+      padding: 4px;
+      font-size: 8px;
+      margin-left: 5px;
+  }
+  .input-message {
+    padding: 8px 0px 8px 0px;
+  }	
+  .input-message-input-01{
+      height: 30px;
+      font-size: 11px;
+  }
+  .btn-send-icon{
+    height: 18px;
+    width: 18px;
+  }
+  .btn-attach-icon{
+    height: 30px;
+    width: 22px;
+}
+  .name-user-right,  .name-user-left {
+    font-size: 10px;
+    top: -18px;
+    }
+  .msg_time, .msg_time_send {
+      bottom: -11px;
+      font-size: 6px;
+  }
+  .button-save, .button-cancel {
+    height: 1.6rem;
+    border-radius: 0.3rem !important;
+    font-size: 11px !important;
+    padding: 0rem 0rem !important;
+}
+
+}
+
+/* Small devices (landscape phones, 576px until 767.98px) */
+@media (min-width: 576px) and (max-width: 767.98px){
+  .btn-ChangeTicket{
+    margin-right: 12px !important;
+    padding: 0.3rem .7rem !important;
+    font-size: 10px !important;
+  }
+  .css-166bipr-Input{
+    margin-top: -10px !important;
+  }
+  .css-qbdosj-Input {
+    margin-top: -20px !important;
+    }
+  .css-1dimb5e-singleValue {
+    margin-top: 2px;
+  }
+  .css-1hb7zxy-IndicatorsContainer {
+    align-items: baseline !important;
+    padding-top: 2px !important;
+}
+  .css-qbdosj-Input {
+    grid-area: auto !important;
+  }
+  .css-1ibigt0-placeholder{
+    padding-top: 2px;
+  }
+  .main-nav2{
+    align-items: center;
+    padding-left:0;
+}
+  .sidebar2{
+    transform: translateX(-100%);
+  }
+  .content-box3{
+    margin-left: 20px;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+  }
+  main{
+      padding: 0 0 0 0 !important;
+  }
+  .header-content2 {
+    margin-right: 40px !important;
+    gap: 8px !important;
+}
+  .content-box-title2{
+      font-size: 22px !important;
+  }
+  .mobile-nav-btn2{
+      display: none;
+  }
+  .mobile-nav-btn{
+      display: flex !important;
+      align-items: center;
+  }
+  .space-toggle2 {
+      padding-left: 0px !important;
+  }
+  .mobile-nav-btn{
+      transition: 0.5s ease;
+      padding-left: 0px !important;
+  }
+  .space-toggle2 .mobile-nav-btn {
+      padding-left: 215px !important;
+      transition: padding-left 0.5s ease;
+  }
+  .custom-button01 {
+    padding: 0.3rem 0.7rem;
+    font-size: 10px;
+}
+  .box-title3{
+    padding-top: 7px;
+    margin-bottom: 5px;
+    padding-left: 20px;
+  }
+  .box-btn2 {
+    width: 1.6rem;
+    height: 1.6rem;
+  }
+  .content-box-title2 {
+      font-size: 20px !important;
+  }
+  .sub-box-box1{
+    gap: 0rem; 
+    padding-left: 0.75rem; 
+    padding-right: 0.75rem;
+  }
+  .sub-box-box1-col{
+    padding: 0.3rem !important;
+  }
+  .sub-box-box1-col-header {
+    font-size: 12px !important;
+}
+.sub-box-box1-col-input, .sub-box-box1-col-input-file{
+    font-size: 11px;
+    height: 1.7rem;
+    padding: 0.25rem 0.4rem;
+  }
+  .sub-box-box1-col-input-desc{
+    font-size: 12px;
+    padding: 0.25rem 0.4rem;
+  }
+  input[type=file]::file-selector-button {
+    background-color: #EEEEEE;
+    height: 100%;
+    padding: 0px 5px;
+}
+  .chat {
+    margin-bottom: 1.25rem;
+}
+  .chat-icon {
+      font-size: 2rem;
+      top: -18px;
+  }
+  .msg_cotainer_send, .msg_cotainer{
+      padding: 5px;
+      font-size: 10px;
+      margin-left: 5px;
+  }
+  .input-message {
+    padding: 10px 0px 10px 0px;
+  }	
+  .input-message-input-01{
+      height: 30px;
+      font-size: 11px;
+  }
+  .btn-send-icon{
+    height: 20px;
+    width: 20px;
+  }
+  .btn-attach-icon{
+    height: 32px;
+    width: 24px;
+}
+  .name-user-right,  .name-user-left {
+    font-size: 12px;
+    top: -24px;
+    }
+  .msg_time, .msg_time_send {
+      bottom: -14px;
+      font-size: 8px;
+  }
+  .button-save, .button-cancel {
+    height: 1.6rem;
+    border-radius: 0.3rem !important;
+    font-size: 12px !important;
+    padding: 0rem 0rem !important;
+}
+/* Medium devices (tablets, 768px until 1023.98px) */
+@media (min-width: 768px) and (max-width: 1023.98px) {
+  .btn-ChangeTicket{
+    margin-right: 16px !important;
+    padding: 0.4rem .8rem !important;
+    font-size: 12px !important;
+  }
+  .css-166bipr-Input{
+    margin-top: -10px !important;
+  }
+  .div.css-1fdsijx-ValueContainer{
+    margin-top: -10px !important;
+  }
+  .css-1dimb5e-singleValue {
+    margin-top: 2px;
+  }
+  .css-1hb7zxy-IndicatorsContainer {
+    align-items: baseline !important;
+    padding-top: 4px !important;
+}
+  .css-qbdosj-Input {
+    grid-area: auto !important;
+  }
+  .css-1ibigt0-placeholder {
+    padding-top: 2px;
+  }
+  .content-box3 {
+      padding-left: 60px;
+      padding-right: 25px;
+      position: absolute !important;
+  }
+  main{
+      padding: 0 0 0 0 !important;
+  }
+  .header-content2 {
+    margin-right: 50px !important;
+    gap: 9px !important;
+}
+  .content-box-title2 {
+      font-size: 24px;
+  }
+  .mobile-nav-btn2{
+      display: none;
+  }
+  .mobile-nav-btn{
+      display: flex !important;
+      align-items: center;
+  }
+  .space-toggle2 {
+      padding-left: 0px !important;
+  }
+  .mobile-nav-btn{
+      transition: 0.5s ease;
+      padding-left: 0px !important;
+  }
+  .space-toggle2 .mobile-nav-btn {
+      padding-left: 215px !important;
+      transition: padding-left 0.5s ease;
+  }
+  .custom-button01 {
+    padding: 0.35rem 0.8rem;
+    font-size: 10px;
+}
+  .box-title3{
+    padding-top: 8px;
+    margin-bottom: 6px;
+    padding-left: 100px;
+  }
+  .box-btn2 {
+    width: 2rem;
+    height: 2rem;
+  }
+  .content-box-title2 {
+      font-size: 24px;
+  }
+  .sub-box-box1{
+    gap: 0rem; 
+    padding-left: 1rem; 
+    padding-right: 1rem;
+  }
+  .sub-box-box1-col{
+    padding: 0.5rem !important;
+  }
+  .sub-box-box1-col-header {
+    font-size: 13px !important;
+}
+ .sub-box-box1-col-input, .sub-box-box1-col-input-file{
+    font-size: 12px;
+    height: 1.75rem;
+    padding: 0.25rem 0.4rem;
+  }
+  input[type=file]::file-selector-button {
+    background-color: #EEEEEE;
+    height: 100%;
+    padding: 0px 5px;
+}
+  .sub-box-box1-col-input-desc{
+    font-size: 12px;
+    padding: 0.25rem 0.4rem;
+  }
+  .chat {
+    margin-bottom: 1.25rem;
+}
+  .chat-icon {
+      font-size: 2.25rem;
+  }
+  .msg_cotainer_send, .msg_cotainer{
+      padding: 6px;
+      font-size: 12px;
+      margin-left: 6px;
+  }
+  .input-message {
+    padding: 10px 0px 10px 0px;
+  }	
+  .input-message-input-01{
+      height: 34px;
+      font-size: 14px;
+  }
+  .btn-send-icon{
+    height: 24px;
+    width: 24px;
+  }
+  .btn-attach-icon{
+    height: 36px;
+    width: 28px;
+}
+  .name-user-right,  .name-user-left {
+    font-size: 14px;
+    top: -24px;
+    }
+  .msg_time {
+      bottom: -18px;
+      font-size: 10px;
+  }
+  .msg_time_send {
+      bottom: -18px;
+      font-size: 10px;
+  }
+  .button-save, .button-cancel {
+    height: 1.7rem;
+    border-radius: 0.3rem !important;
+    font-size: 12px !important;
+}
+}
+
+/* Large devices (laptops, 1280px and up) */
+@media (min-width: 1023.98px) and (max-width: 1280px) {
+  .space-toggle2 {
+    padding-left: 215px !important;
+  }
+  .space-toggle2 .mobile-nav-btn2 {
+    margin-left: 12px !important;
+  }
+  main {
+    padding: 0 0 0 80px !important; /* Fixed the missing unit (px) */
+  }
+  .content-box3 {
+    width: calc(100% - 20px);
+  }
+  .sub-box-box1 {
+    gap: 1rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+  .chat {
+    margin-bottom: 1.5rem;
+  }
+  .custom-button01 {
+    padding: 0.4rem 0.9rem;
+    font-size: 12px;
+  }
+  .chat-icon {
+    font-size: 2.5rem;
+  }
+  .msg_cotainer_send,
+  .msg_cotainer {
+    padding: 8px;
+    font-size: 14px;
+  }
+  .input-message-input-0 {
+    height: 40px;
+    font-size: 16px;
+  }
+  .btn-send-icon {
+    height: 30px;
+    width: 30px;
+  }
+  .button-save,
+  .button-cancel {
+    height: 1.75rem;
+    border-radius: 0.3rem !important;
+    font-size: 12px !important;
+  }
+  .btn-ChangeTicket {
+    margin-right: 20px !important;
+    padding: 0.5rem 1rem !important;
+    font-size: 13px !important;
+  }
+}
+}
