@@ -21,6 +21,8 @@ import { jwtDecode } from 'jwt-decode';
 const EditBooks = () => {
   const { id } = useParams();
   const [isVerif, setIsVerif] = useState(null);  
+  const [imageSrc, setImageSrc] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
   const fetchData = async () => {
     try {
       await refreshToken(); 
@@ -48,7 +50,9 @@ const EditBooks = () => {
     author: '',
     publication:'',
     category_id: '',
-    status: ''
+    status: '',
+    synopsis:'',
+    file_url:''
   });
   
   const refreshToken = async () => {
@@ -135,7 +139,9 @@ const getData = async (token) => {
         author: loanData.author,
         publication:loanData.publication,
         category_id: loanData.category,
-        status: loanData.status
+        status: loanData.status,
+        synopsis: loanData.synopsis,
+        file_url:loanData.file_url
       });
       setLoading(false);
     } catch (error) {
@@ -187,11 +193,12 @@ const handleTicketUpdate = async () => {
         publication:loan.publication,
         category_id: selectedCategory ? selectedCategory.id : null,
         status: selectedStatus ? selectedStatus.id : null,
+        synopsis:loan.synopsis
       };
       axios.put(`http://localhost:8000/bookedit/${id}`, updateData);
       console.log('data :', updateData);
       Swal.fire({
-        title: 'Ticket updated successfully',
+        title: 'Book updated successfully',
         icon: 'success',
         customClass: {
           confirmButton: 'custom-success-alert',
@@ -236,6 +243,55 @@ const handleTicketUpdate = async () => {
       <img src={logo2} alt="logo5" />
     </div>
   );
+
+  useEffect(() => {
+    if (loan.file_url) {
+      showImage();
+    }
+  }, [loan.file_url]);
+
+const showImage = async () => {
+  try {
+    const file_url = encodeURIComponent(loan.file_url);
+    const response = await axios.get(`http://localhost:8000/show/${file_url}`);
+    setImageSrc(response.data.dataUrl);
+  } catch (error) {
+    console.error('Error fetching image:', error);
+  }
+};
+
+const openImageInNewTab = () => {
+  // Assuming response.data contains the dataUrl
+  const dataUrl = imageSrc;
+
+  // Open a new tab with the image
+  const newTab = window.open('', '_blank');
+
+  // Check if newTab is not null before accessing its document property
+  if (newTab) {
+    // Open the document for writing
+    newTab.document.open();
+
+    // Write the image data to the new tab
+    newTab.document.write(`
+      <html>
+        <head>
+          <title>Image Preview</title>
+        </head>
+        <body>
+          <img src="${dataUrl}" alt="Image Preview">
+        </body>
+      </html>
+    `);
+
+    // Close the document to ensure proper rendering
+    newTab.document.close();
+  } else {
+    console.error('Failed to open a new tab.');
+  }
+};
+
+
 
     return (
       (isVerif === true) ?
@@ -363,6 +419,33 @@ const handleTicketUpdate = async () => {
                       </select>
                     </div>
                 </div>
+                <div className="col-span-1 sub-box-box1-col">
+                  <p className="text-gray-700 font-semibold sub-box-box1-col-header">Synopsis</p>
+                  <div className="mt-auto">
+                         <input
+                            className={`border border-gray-300 sub-box-box1-col-input`}
+                            name="synopsis"
+                            value={loan.synopsis}
+                            onChange={handleChange}
+                            maxLength="1000"
+                        />
+                  </div>
+                 </div>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 sub-box-box1"> 
+                <div className="col-span-1 sub-box-box1-col">
+                  <p className="text-gray-700 font-semibold sub-box-box1-col-header">Image Preview</p>
+                  <div className="mt-auto">
+                    {loan.file_url && (
+                      <img
+                        onClick={openImageInNewTab}
+                        src={imageSrc}
+                        alt="Preview"
+                        className="max-w-full max-h-32 cursor-pointer img-preview"
+                      />
+                    )}
+                  </div>
+                 </div>
               </div>
               <div className="grid grid-cols-1 sub-box-box1"> 
                 <div className="col-span-1 flex justify-end mt-2 mb-4 sub-box-box1-col">

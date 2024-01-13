@@ -17,6 +17,12 @@ const Users = db.define('users', {
     password: {
         type: DataTypes.STRING(255)
     },
+    phone: {
+        type: DataTypes.STRING(16)
+    },
+    address: {
+        type: DataTypes.STRING(500)
+    },
     role_id: {
         type: DataTypes.SMALLINT
     },

@@ -28,7 +28,7 @@ const App = () => {
         <Route path="/users-edit/:id" element={<EditUser  />} />    
         <Route path="/loans-new" element={<NewLoans />} />
         <Route path="/books-new" element={<NewBooks />} />
-        <Route path="/user-new" element={<NewUsers />} />
+        <Route path="/users-new" element={<NewUsers />} />
         <Route path="/users-master" element={<Users />} />
       </Routes>
     </BrowserRouter>

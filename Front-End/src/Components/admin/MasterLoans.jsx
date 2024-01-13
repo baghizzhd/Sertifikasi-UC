@@ -17,7 +17,10 @@ import { LuBookMarked } from "react-icons/lu";
 import { MdOutlineDeleteForever } from "react-icons/md";
 import { LuBookPlus } from "react-icons/lu";
 import { LuLogOut } from "react-icons/lu";
-import { FiUser } from "react-icons/fi";
+import { MdOutlineBookmarkAdded } from "react-icons/md";
+
+
+
 
 const MasterBuku = () => {
   const [isVerif, setIsVerif] = useState(null);
@@ -141,11 +144,46 @@ const MasterBuku = () => {
         popup: 'swal2-popup-right', // Add your custom CSS class for positioning
       },
     });
-  
     // If the user confirms, proceed with the deletion
     if (confirmResult.isConfirmed) {
       try {
         const response = await axiosJWT.delete(`http://localhost:8000/deleteloan/${id}`, {
+          headers: {
+            Authorization: `Bearer ${varnewToken}`,
+          },
+        });
+  
+        if (response.status === 200 && response.data.success) {
+          handleTicket(searchText, token);
+        } else if (response.status === 404) {
+          console.error(response.data.message);
+        } else {
+          console.error('Failed to delete book');
+        }
+      } catch (error) {
+        console.error('Error deleting book:', error);
+      }
+    }
+  };
+
+  const handleUpdate = async (id) => {
+    // Ask for confirmation
+    const confirmResult = await Swal.fire({
+      title: 'Are you sure the loan has been completed?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '##28a745',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, update it!',
+      reverseButtons: true, // Reverse the order of buttons
+      customClass: {
+        popup: 'swal2-popup-right', // Add your custom CSS class for positioning
+      },
+    });
+    // If the user confirms, proceed with the deletion
+    if (confirmResult.isConfirmed) {
+      try {
+        const response = await axiosJWT.put(`http://localhost:8000/updateloan/${id}`, {
           headers: {
             Authorization: `Bearer ${varnewToken}`,
           },
@@ -291,6 +329,7 @@ const MasterBuku = () => {
                           <th className="w-72 px-4 py-2 text-sm font-semibold">Title</th>
                           <th className="w-48 px-4 py-2 text-sm font-semibold">Borrower</th>
                           <th className="w-24 px-4 py-2 text-sm font-semibold">Loan Date</th>
+                          <th className="w-24 px-4 py-2 text-sm font-semibold">Date Return</th>
                           <th className="w-24 px-4 py-2 text-sm font-semibold">Status</th>
                           <th className="w-32 px-2 py-2 text-sm font-semibold">Action</th>
                         </tr>
@@ -309,7 +348,10 @@ const MasterBuku = () => {
                                     <p className="px-1 py-1 text-sm text-center">{books.borrower}</p>
                                   </td>
                                   <td className='px-1 py-1 text-sm text-center'>
-                                      {books.date_created}
+                                      {books.date_start}
+                                  </td>
+                                  <td className='px-1 py-1 text-sm text-center'>
+                                      {books.date_return}
                                   </td>
                                   <td className="px-1 text-center">
                                       <span className={`text-sm font-semibold flex items-center justify-center text-center py-1 rounded-full ${
@@ -325,32 +367,38 @@ const MasterBuku = () => {
                                       }`}>
                                         {books.status}
                                       </span>
-                                    </td>
+                                  </td>
                                   <td className='px-1 py-1'>
                                     <div className='flex items-center justify-center'>
                                       <span
-                                        className="cursor-pointer mr-4"
+                                        className="cursor-pointer mr-2"
                                         key={`${books.id}-${index}`}
-                                        onClick={() => handleDelete(books.id)}
+                                        onClick={() => handleUpdate(books.id)}
                                       >
-                                        <MdOutlineDeleteForever size={24} color="#9D4E3E" />
+                                        <MdOutlineBookmarkAdded size={24} color="#158C5B" />
                                       </span>
                                       <span
-                                        className="cursor-pointer"
+                                        className="cursor-pointer  mr-2"
                                         key={`${books.id}-${index}-edit`}
                                         onClick={() => {
-                                          // Add your second onClick action (e.g., navigate to edit)
                                           navigate(`/loans-edit/${books.id}`);
                                         }}
                                       >
                                         <BiEdit size={20} color="#4F39D8" />
+                                      </span>
+                                      <span
+                                        className="cursor-pointer"
+                                        key={`${books.id}-${index}`}
+                                        onClick={() => handleDelete(books.id)}
+                                      >
+                                        <MdOutlineDeleteForever size={24} color="#9D4E3E" />
                                       </span>
                                     </div>
                                   </td>
                               </tr>
                                 ))) : (
                                 <tr key="no-tickets">
-                                    <td colSpan="10" className='allert-result text-center'>No books available</td>
+                                    <td colSpan="10" className='allert-result text-center'>No loans available</td>
                                 </tr>
                                 )}
                           </tbody>

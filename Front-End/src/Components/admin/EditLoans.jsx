@@ -15,7 +15,6 @@ import { LiaUsersCogSolid } from "react-icons/lia";
 import { LuBookMarked } from "react-icons/lu";
 import { LuBookPlus } from "react-icons/lu";
 import { LuLogOut } from "react-icons/lu";
-import { FiUser } from "react-icons/fi";
 import { jwtDecode } from 'jwt-decode';
 
 const EditLoans = () => {
@@ -43,6 +42,7 @@ const EditLoans = () => {
   const [token, setToken] = useState(null);
   const [expire, setExpire] = useState(null);
   const [loan, setDLoan]  = useState({
+    id:'',
     title: '',
     borrower: '',
     status:'',
@@ -128,37 +128,21 @@ const getData = async (token) => {
         },
       });
       const loanData = response.data.user[0];
-      await setDLoan({      
+      await setDLoan({    
+      id:loanData.id,  
       title: loanData.title,
       borrower: loanData.borrower,
       status:loanData.status,
       date_start: loanData.date_start,
       date_return:loanData.date_return
       });
+      console.log('Data Loan: ',loanData);
       setLoading(false);
     } catch (error) {
       console.error('Error fetching detail loan:', error);
       setLoading(false);
     }
   };
-
-let varnewToken = token;
-const axiosJWT = axios.create();
-axiosJWT.interceptors.request.use(async (config) => {
-  const currentDate = new Date();
-  if (expire * 1000 < currentDate.getTime()) {
-    const response = await axios.get('http://localhost:8000/token');
-    const newToken = response.data.accessToken;
-    setToken(newToken);
-    varnewToken = newToken;
-    config.headers.Authorization = `Bearer ${newToken}`;
-    const decoded = jwtDecode(newToken);
-    setExpire(decoded.exp);
-  }
-  return config;
-}, (error) => {
-  return Promise.reject(error);
-});
   
   const Logout = async () => {
     try {
@@ -168,12 +152,8 @@ axiosJWT.interceptors.request.use(async (config) => {
         console.log(error);
     }
   }
-  
             
-const handleChange = (e) => {
-    const { name, value } = e.target;
-    setDLoan({ ...loan, [name]: value });
-};
+
 const handleTicketUpdate = async () => {
     try {
       const selectedUsers = user.find(users => users.name === loan.borrower);
@@ -181,13 +161,13 @@ const handleTicketUpdate = async () => {
       const updateData = {
         borrower: selectedUsers ? selectedUsers.id : null,
         status: selectedStatus ? selectedStatus.id : null,
-        date_start: loan.date_start,
-        date_return: loan.date_return,
+        date_start: formatDateForInput(loan.date_start),
+        date_return: formatDateForInput(loan.date_return),
       };
-      const response = await axiosJWT.put(`http://localhost:8000/loanedit/${id}`, updateData);
+      await axios.put(`http://localhost:8000/loanedit/${id}`, updateData);
       console.log(updateData);
       Swal.fire({
-        title: 'Ticket updated successfully',
+        title: 'Loan updated successfully',
         icon: 'success',
         customClass: {
           confirmButton: 'custom-success-alert',
@@ -198,6 +178,19 @@ const handleTicketUpdate = async () => {
         console.error('Error updating ticket:', error);
       }
     };
+
+    function formatDateForInput(originalDate) {
+      const [day, month, year] = originalDate.split("-");
+      const formattedDate = `${year}-${month}-${day}`;
+      return formattedDate;
+    };
+
+    const handleChange = (e) => {
+      const { name, value } = e.target;
+      const formattedValue = e.target.type === 'date' ? formatDateForInput(value) : value;
+      setDLoan({ ...loan, [name]: formattedValue });
+      console.log('On Change : ',loan);
+  };
 
     const sidebarNavItems = [
         {
@@ -289,15 +282,27 @@ const handleTicketUpdate = async () => {
               <hr className="border-black-900 line"></hr>
               <div className="grid grid-cols-1 sm:grid-cols-2 sub-box-box1"> 
                 <div className="col-span-1 sub-box-box1-col">
+                        <p className="text-gray-700 font-semibold sub-box-box1-col-header">ID Loan</p>
+                        <div className="mt-auto">
+                            <input readOnly
+                                className={`border border-gray-300 sub-box-box1-col-input bg-gray-100`}
+                                name="title"
+                                value={loan.id}>
+                            </input>
+                      </div>
+                </div>
+                <div className="col-span-1 sub-box-box1-col">
                     <p className="text-gray-700 font-semibold sub-box-box1-col-header">Book Title</p>
                     <div className="mt-auto">
                         <input readOnly
-                            className={`border border-gray-300 sub-box-box1-col-input`}
+                            className={`border border-gray-300 sub-box-box1-col-input bg-gray-100`}
                             name="title"
                             value={loan.title}>
                         </input>
                    </div>
                 </div>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 sub-box-box1"> 
                 <div className="col-span-1 sub-box-box1-col">
                   <p className="text-gray-700 font-semibold sub-box-box1-col-header">Select User</p>
                   <div className="mt-auto">
@@ -316,36 +321,7 @@ const handleTicketUpdate = async () => {
                       </select>
                   </div>
                  </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 sub-box-box1"> 
-                <div className="col-span-1 sub-box-box1-col">
-                    <p className="text-gray-700 font-semibold sub-box-box1-col-header">Loan Date</p>
-                    <div className="mt-auto">
-                    <input
-                        type="date"
-                        className="border border-gray-300 sub-box-box1-col-input"
-                        value={loan.date_start}
-                        onChange={handleChange}
-                        name="date_start" 
-                      />
-                    </div>
-                </div>
-                <div className="col-span-1 sub-box-box1-col">
-                    <p className="text-gray-700 font-semibold sub-box-box1-col-header">Date Return</p>
-                    <div className="mt-auto">
-                    <input
-                        type="date"
-                        className="border border-gray-300 sub-box-box1-col-input"
-                        defaultValue={loan.date_return}
-                        onChange={handleChange}
-                        name="date_return" 
-                      />
-                    </div>
-                </div>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 sub-box-box1"> 
-                <div className="col-span-1 sub-box-box1-col">
+                 <div className="col-span-1 sub-box-box1-col">
                     <p className="text-gray-700 font-semibold sub-box-box1-col-header">Status</p>
                     <div className="mt-auto">
                     <select
@@ -361,6 +337,32 @@ const handleTicketUpdate = async () => {
                           </option>
                         ))}
                       </select>
+                    </div>
+                </div>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 sub-box-box1"> 
+                <div className="col-span-1 sub-box-box1-col">
+                    <p className="text-gray-700 font-semibold sub-box-box1-col-header">Loan Date</p>
+                    <div className="mt-auto">
+                    <input
+                        type="date"
+                        className="border border-gray-300 sub-box-box1-col-input"
+                        value={formatDateForInput(loan.date_start)}
+                        onChange={handleChange}
+                        name="date_start" 
+                      />
+                    </div>
+                </div>
+                <div className="col-span-1 sub-box-box1-col">
+                    <p className="text-gray-700 font-semibold sub-box-box1-col-header">Date Return</p>
+                    <div className="mt-auto">
+                    <input
+                        type="date"
+                        className="border border-gray-300 sub-box-box1-col-input"
+                        value={formatDateForInput(loan.date_return)}
+                        onChange={handleChange}
+                        name="date_return" 
+                      />
                     </div>
                 </div>
               </div>

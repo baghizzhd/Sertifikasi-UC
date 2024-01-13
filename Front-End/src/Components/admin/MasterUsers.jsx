@@ -138,7 +138,7 @@ const MasterBuku = () => {
       confirmButtonText: 'Yes, delete it!',
       reverseButtons: true, // Reverse the order of buttons
       customClass: {
-        popup: 'swal2-popup-right', // Add your custom CSS class for positioning
+        popup: 'swal2-popup-right', 
       },
     });
   
@@ -170,6 +170,19 @@ const MasterBuku = () => {
         navigate("/");
     } catch (error) {
         console.log(error);
+    }
+  }
+
+  function truncateText(text, maxLength) {
+    if (typeof text !== 'string') {
+      return ''; // Handle non-string values
+    }
+  
+    if (text.length <= maxLength) {
+      return text;
+    } else {
+      const truncatedText = text.slice(0, maxLength);
+      return truncatedText + '...';
     }
   }
   
@@ -267,7 +280,7 @@ const MasterBuku = () => {
                       <input
                         type="text"
                         className="border border-gray-300 rounded-lg py-1 px-10 w-48 md:w-80 text-lg"
-                        placeholder="Search Title..."
+                        placeholder="Search User..."
                         value={searchText}
                         onChange={handleSearchInputChange}
                       />
@@ -278,7 +291,7 @@ const MasterBuku = () => {
                           />
                       </div>
                       <div className='flex gap-2 ml-[auto]'>
-                        <div  onClick={() => navigate('/user-new')}  className='ml-6 flex  items-center justify-center rounded-md mt-2 text-base font-semibold px-4 w-32 text-white cursor-pointer btn-NewTicket'>
+                        <div  onClick={() => navigate('/users-new')}  className='ml-6 flex  items-center justify-center rounded-md mt-2 text-base font-semibold px-4 w-32 text-white cursor-pointer btn-NewTicket'>
                           Add User
                         </div>
                       </div>     
@@ -289,6 +302,8 @@ const MasterBuku = () => {
                         <tr key="column">
                           <th className="w-12 px-1 py-2 text-sm font-semibold">ID</th>
                           <th className="w-72 px-4 py-2 text-sm font-semibold">Name</th>
+                          <th className="w-72 px-4 py-2 text-sm font-semibold">Phone</th>
+                          <th className="w-72 px-4 py-2 text-sm font-semibold">Address</th>
                           <th className="w-24 px-1 py-2 text-sm font-semibold">Action</th>
                         </tr>
                       </thead>
@@ -302,6 +317,8 @@ const MasterBuku = () => {
                               <tr key={books.TicketId}>
                                   <td className="px-1 py-1 text-sm font-semibold text-center">{books.id}</td>
                                   <td className="px-1 py-1 text-sm text-center">{books.name}</td>
+                                  <td className="px-1 py-1 text-sm text-center">{books.phone}</td>
+                                  <td className="px-1 py-1 text-sm text-center">{truncateText(books?.address, 40)}</td>                            
                                   <td className='px-1 py-1'>
                                     <div className='flex items-center justify-center'>
                                       <span

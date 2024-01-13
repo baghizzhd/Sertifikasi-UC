@@ -17,6 +17,9 @@ const Loans = db.define('loans', {
     status: {
         type: DataTypes.SMALLINT
     },
+    date_start: {
+        type: DataTypes.DATE
+    },
     date_return: {
         type: DataTypes.DATE
     },

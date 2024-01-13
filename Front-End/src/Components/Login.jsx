@@ -76,7 +76,8 @@ const Login = () => {
             <p className="my-2.5 mb-3 login-tagline">Enter your username and password to login the website</p>
             <form onSubmit={Auth} className="login-form">
               <label htmlFor="username">Username</label>
-              <input required
+              <input 
+                required
                 value={username} 
                 onChange={(e) => setUsername(e.target.value.toLowerCase())}    
                 placeholder="Your Username"
@@ -88,6 +89,7 @@ const Login = () => {
               <label htmlFor="password">Password</label>
               <div className="mt-auto password-input flex">
                 <input
+                  required
                   value={pass}
                   onChange={(e) => setPass(e.target.value)}
                   type={showPassword ? 'text' : 'password'}

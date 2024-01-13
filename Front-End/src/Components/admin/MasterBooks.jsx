@@ -17,7 +17,6 @@ import { LuBookMarked } from "react-icons/lu";
 import { MdOutlineDeleteForever } from "react-icons/md";
 import { LuBookPlus } from "react-icons/lu";
 import { LuLogOut } from "react-icons/lu";
-import { FiUser } from "react-icons/fi";
 
 const MasterBuku = () => {
   const [isVerif, setIsVerif] = useState(null);
@@ -163,6 +162,19 @@ const MasterBuku = () => {
       }
     }
   };
+
+  function truncateText(text, maxLength) {
+    if (typeof text !== 'string') {
+      return ''; // Handle non-string values
+    }
+  
+    if (text.length <= maxLength) {
+      return text;
+    } else {
+      const truncatedText = text.slice(0, maxLength);
+      return truncatedText + '...';
+    }
+  }
   
   const Logout = async () => {
     try {
@@ -288,9 +300,10 @@ const MasterBuku = () => {
                       <thead className='border-box'>
                         <tr key="column">
                           <th className="w-12 px-1 py-2 text-sm font-semibold">ID</th>
-                          <th className="w-72 px-4 py-2 text-sm font-semibold">Title</th>
-                          <th className="w-48 px-4 py-2 text-sm font-semibold">Author</th>
+                          <th className="w-32 px-4 py-2 text-sm font-semibold">Book Name</th>
+                          <th className="w-20 px-4 py-2 text-sm font-semibold">Author</th>
                           <th className="w-24 px-4 py-2 text-sm font-semibold">Publication Year</th>
+                          <th className="w-48 px-4 py-2 text-sm font-semibold">Synopsis</th>
                           <th className="w-32 px-4 py-2 text-sm font-semibold">Category</th>
                           <th className="w-24 px-4 py-2 text-sm font-semibold">Status</th>
                           <th className="w-32 px-2 py-2 text-sm font-semibold">Action</th>
@@ -311,6 +324,9 @@ const MasterBuku = () => {
                                   </td>
                                   <td className='px-1 py-1 text-sm text-center'>
                                       {books.publication}
+                                  </td>
+                                  <td className='px-1 py-1 text-sm text-center'>
+                                      {truncateText(books?.synopsis, 80)}
                                   </td>
                                   <td className='px-1 py-1 text-sm text-center'>
                                       {books.category}

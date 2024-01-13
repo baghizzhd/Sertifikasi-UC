@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
@@ -23,6 +23,8 @@ import Select from 'react-select';
 const NewBooks = () => {
   const [isVerif, setIsVerif] = useState(null);
   const [books, setBooks] = useState({  id:'',name: '' }); 
+  const [selectedFile, setSelectedFile] = useState(null);
+  const fileInputRef = useRef(null);
   
   const fetchData = async () => {
     try {
@@ -44,7 +46,7 @@ const NewBooks = () => {
   const [name, setName] = useState({name: ''});   
   const [token, setToken] = useState(null);
   const [expire, setExpire] = useState(null);
-  const [newLoans, setNewLoans]  = useState({title:'', author:'', publication: '', synopsis:'', category_id:''});
+  const [newLoans, setNewLoans]  = useState({title:'', author:'', publication: '', synopsis:'', category_id:'', file_url:''});
   const [selectedBooks, setSelectedBooks] = useState(null);
   
   const refreshToken = async () => {
@@ -136,9 +138,11 @@ axiosJWT.interceptors.request.use(async (config) => {
       formData.append('publication', newLoans.publication);
       formData.append('synopsis', newLoans.synopsis);
       formData.append('category_id', newLoans.category_id);
+      formData.append('file_url', newLoans.file_url);
       // Send a POST request with formData to add a new ticket
       await axiosJWT.post('http://localhost:8000/insertbook', formData, {
         headers: {
+          'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${varnewToken}`
         },
       });
@@ -226,6 +230,47 @@ const handleInputChange2 = (selectedOption) => {
     },
   };
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    const maxSize = 2097152; // 2 MB in bytes (2 * 1024 * 1024)
+    if (file && file.size > maxSize) {
+      // File size exceeds the limit
+      Swal.fire({
+        icon: 'error',
+        title: 'File Size Exceeds Limit',
+        text: 'Please choose a smaller file (maximum 2 MB).',
+      });
+      e.target.value = null; // Reset the input field
+    } else {
+      setSelectedFile(file);
+      // File size is within the limit, update newTicket state with the selected file
+      setNewLoans({
+        ...newLoans,
+        file_url: file,
+      });
+      
+    }
+  };
+
+  const openImageInNewTab = () => {
+    if (selectedFile) {
+      const imageUrl = URL.createObjectURL(selectedFile);
+      window.open(imageUrl, '_blank');
+    }
+  };
+
+  const removeFile = () => {
+    setSelectedFile(null);
+    setNewLoans({
+      ...newLoans,
+      file_url: '',
+    });
+    // Reset the value of the file input field
+    if (fileInputRef.current) {
+      fileInputRef.current.value = null;
+    }
+  };
+
     const sidebarNavItems = [
         {
             display: "Books",
@@ -307,7 +352,7 @@ const handleInputChange2 = (selectedOption) => {
         </nav>
         <div id={imgVisible ? 'overlay3' : ''}></div>
           <div className="box-title3">
-                <img src={back} onClick={() => navigate('/loans-master')} className="box-btn2 cursor-pointer" alt="back" />
+                <img src={back} onClick={() => navigate('/books-master')} className="box-btn2 cursor-pointer" alt="back" />
                 <h2 className="content-box-title2">New Books</h2>
           </div>
           <form onSubmit={handleSubmit} className='content-box3'>
@@ -318,7 +363,7 @@ const handleInputChange2 = (selectedOption) => {
                 <div className="col-span-1 sub-box-box1-col">
                     <p className="text-gray-700 font-semibold sub-box-box1-col-header">Title</p>
                     <div className="mt-auto">
-                    <input
+                    <input required
                         type="text"
                         className="border border-gray-300 sub-box-box1-col-input"
                         name="title" 
@@ -387,10 +432,42 @@ const handleInputChange2 = (selectedOption) => {
                         />
                    </div>
                 </div>
+                <div className="col-span-1 sub-box-box1-col">
+                    <p className="text-gray-700 font-semibold sub-box-box1-col-header">Attach Photo (png, jpeg, jpg*)</p>
+                    <div className="mt-auto">
+                    <input
+                        type="file"
+                        name='file_url'
+                        className="border border-gray-300 sub-box-box1-col-input-file"
+                        placeholder="Upload file"
+                        accept=".png, .jpeg, .jpg"
+                        size="2097152"
+                        onChange={handleFileChange}
+                        ref={fileInputRef}
+                      />
+                    </div>
+                    {selectedFile && (
+                    <div className="mt-2">
+                    <p>Preview:</p>
+                      <img
+                        onClick={openImageInNewTab}
+                        src={URL.createObjectURL(selectedFile)}
+                        alt="Preview"
+                        className="max-w-full max-h-32 cursor-pointer img-preview"
+                      />
+                      <button
+                        onClick={removeFile}
+                        className="bg-red-500 hover:bg-red-800 text-white p-1 rounded-full px-4 text-sm mt-2"
+                      >
+                        Remove
+                    </button>
+                  </div>
+                  )}
+                </div>
               </div>
               <div className="grid grid-cols-1 sub-box-box1"> 
                 <div className="col-span-1 flex justify-end mt-2 mb-4 sub-box-box1-col">
-                  <button onClick={() => navigate('/loans-master')} className="bg-gray-200 hover:bg-gray-300 rounded-md button-cancel">
+                  <button onClick={() => navigate('/books-master')} className="bg-gray-200 hover:bg-gray-300 rounded-md button-cancel">
                     Cancel
                   </button>
                   <button type="submit" className="text-white rounded-md  hover:bg-green-900  button-save">

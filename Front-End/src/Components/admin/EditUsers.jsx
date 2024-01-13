@@ -41,7 +41,9 @@ const EditUser = () => {
   const [token, setToken] = useState(null);
   const [expire, setExpire] = useState(null);
   const [loan, setDLoan]  = useState({
-    name: ''
+    name: '',
+    phone:'',
+    address:''
   });
   
   const refreshToken = async () => {
@@ -93,6 +95,8 @@ const getData = async (token) => {
       const loanData = response.data.user[0];
       await setDLoan({   
         name: loanData.name,
+        phone: loanData.phone,
+        address: loanData.address
       });
       setLoading(false);
     } catch (error) {
@@ -126,8 +130,7 @@ axiosJWT.interceptors.request.use(async (config) => {
     } catch (error) {
         console.log(error);
     }
-  }
-  
+  } 
               
 const handleChange = (e) => {
     const { name, value } = e.target;
@@ -138,11 +141,13 @@ const handleTicketUpdate = async () => {
 
       const updateData = {
         name: loan.name,
+        phone: loan.phone,
+        address: loan.address
       };
       axios.put(`http://localhost:8000/useredit/${id}`, updateData);
       console.log('data :', updateData);
       Swal.fire({
-        title: 'Ticket updated successfully',
+        title: 'User updated successfully',
         icon: 'success',
         customClass: {
           confirmButton: 'custom-success-alert',
@@ -250,6 +255,30 @@ const handleTicketUpdate = async () => {
                             className={`border border-gray-300 sub-box-box1-col-input`}
                             name="name"
                             value={loan.name}
+                            onChange={handleChange}
+                        />
+                   </div>
+                </div>
+                <div className="col-span-1 sub-box-box1-col">
+                    <p className="text-gray-700 font-semibold sub-box-box1-col-header">Phone</p>
+                    <div className="mt-auto">
+                        <input
+                            className={`border border-gray-300 sub-box-box1-col-input`}
+                            name="phone"
+                            value={loan.phone}
+                            onChange={handleChange}
+                        />
+                   </div>
+                </div>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-1 sub-box-box1"> 
+                <div className="col-span-1 sub-box-box1-col">
+                    <p className="text-gray-700 font-semibold sub-box-box1-col-header">Address</p>
+                    <div className="mt-auto">
+                        <input
+                            className={`border border-gray-300 sub-box-box1-col-input`}
+                            name="address"
+                            value={loan.address}
                             onChange={handleChange}
                         />
                    </div>

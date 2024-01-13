@@ -39,7 +39,7 @@ const NewUsers = () => {
   const [name, setName] = useState({name: ''});   
   const [token, setToken] = useState(null);
   const [expire, setExpire] = useState(null);
-  const [newLoans, setNewLoans]  = useState({name:''});
+  const [newLoans, setNewLoans]  = useState({name:'',phone:'', address:''});
   
   const refreshToken = async () => {
       try {
@@ -53,6 +53,30 @@ const NewUsers = () => {
       }
   };
 
+  const getName = async (token) => {
+    try {
+      const response = await axios.get('http://localhost:8000/uservalidation', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }); 
+      const userData = response.data.user;
+      if(userData.role_id!=1){
+        setIsVerif(false);
+        navigate(-1);
+      }
+      else{
+        setIsVerif(true);
+        setName({
+          name : userData.name,
+        });
+        setToken(token);
+      }
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
+  }; 
 
 let varnewToken = token;
 const axiosJWT = axios.create();
@@ -72,40 +96,40 @@ axiosJWT.interceptors.request.use(async (config) => {
   return Promise.reject(error);
 });
   
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    // console.log(newLoans);
-    try {
-      // Create a FormData object to send the file
-      const formData = new FormData();
-      formData.append('name', newLoans.name);
-      // Send a POST request with formData to add a new ticket
-      await axiosJWT.post('http://localhost:8000/insertuser', formData, {
-        headers: {
-          Authorization: `Bearer ${varnewToken}`
-        },
-      });
-      console.log('data : ',formData)
-      // Show a browser alert
-      Swal.fire({
-        title: 'New User Created Successfully!',
-        icon: 'success',
-        customClass: {
-          confirmButton: 'custom-success-alert', 
-        },
-      });  
-      // Navigate and create a success alert
-      navigate('/users-master');
-    } catch (error) {
-      console.error('Error adding ticket:', error);
-      // Show an error alert
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'Error Creating New Ticket',
-      });
-    }
-  }; 
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    // Create a FormData object to send the file
+    const formData = new FormData();
+    formData.append('name', newLoans.name);
+    formData.append('phone', newLoans.phone);
+    formData.append('address', newLoans.address);
+    await axiosJWT.post('http://localhost:8000/insertuser', formData, {
+      headers: {
+        Authorization: `Bearer ${varnewToken}`
+      },
+    });
+    console.log('data : ',formData)
+    // Show a browser alert
+    Swal.fire({
+      title: 'New User Created Successfully!',
+      icon: 'success',
+      customClass: {
+        confirmButton: 'custom-success-alert', 
+      },
+    });  
+    // Navigate and create a success alert
+    navigate('/users-master');
+  } catch (error) {
+    console.error('Error adding ticket:', error);
+    // Show an error alert
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'Error Creating New Ticket',
+    });
+  }
+}; 
 
   const Logout = async () => {
     try {
@@ -125,49 +149,6 @@ axiosJWT.interceptors.request.use(async (config) => {
         });
     }
 };
-
-const handleInputChange2 = (selectedOption) => {
-  const value = selectedOption ? selectedOption.value : "";
-  setSelectedBooks(selectedOption); 
-  setNewLoans({
-    ...newLoans,
-    category_id: value,
-  });
-};
-
-  const customStyles = {
-    control: (baseStyles, state) => ({
-      ...baseStyles,
-      minHeight: '10px',
-      height: '36px',
-      fontSize: '14px',
-      color: '#000000',
-      borderRadius: '0.375rem',
-      '@media (min-width: 768px) and (max-width: 1023.98px)': {
-        fontSize: '12px',
-        minHeight: '10px',
-        height: '28px',
-      },
-      '@media (min-width: 576px) and (max-width: 767.98px)': {
-        fontSize: '11px',
-        minHeight: '10px',
-        height: '26.5px',
-        marginTop:'9px',
-      },
-      '@media (max-width: 575.98px)': {
-        fontSize: '11px',
-        minHeight: '10px',
-        height: '26.5px',
-        marginTop:'9px',
-      }
-    }),
-    placeholder: (defaultStyles) => {
-      return {
-        ...defaultStyles,
-        color: '#000000', // Set the placeholder color to black
-      };
-    },
-  };
 
     const sidebarNavItems = [
         {
@@ -255,7 +236,7 @@ const handleInputChange2 = (selectedOption) => {
           </div>
           <form onSubmit={handleSubmit} className='content-box3'>
             <div className='sub-box2'>
-              <h4 className='sub-box-title'>Enter User Details</h4>
+            <h4 className='sub-box-title'>Enter User Details</h4>
               <hr className="border-black-900 line"></hr>
               <div className="grid grid-cols-1 sm:grid-cols-2 sub-box-box1"> 
                 <div className="col-span-1 sub-box-box1-col">
@@ -264,9 +245,37 @@ const handleInputChange2 = (selectedOption) => {
                     <input
                         type="text"
                         className="border border-gray-300 sub-box-box1-col-input"
-                        name="title" 
+                        name="name" 
                         defaultValue={newLoans.name}
                         placeholder={"Enter Name"}
+                        onChange={handleInputChange}                 
+                      />
+                    </div>
+                </div>
+                <div className="col-span-1 sub-box-box1-col">
+                    <p className="text-gray-700 font-semibold sub-box-box1-col-header">Phone</p>
+                    <div className="mt-auto">
+                    <input
+                        type="text"
+                        className="border border-gray-300 sub-box-box1-col-input"
+                        name="phone" 
+                        defaultValue={newLoans.phone}
+                        placeholder={"Enter Phone"}
+                        onChange={handleInputChange}                 
+                      />
+                    </div>
+                </div>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 sub-box-box1"> 
+                <div className="col-span-1 sub-box-box1-col">
+                    <p className="text-gray-700 font-semibold sub-box-box1-col-header">Address</p>
+                    <div className="mt-auto">
+                    <input
+                        type="text"
+                        className="border border-gray-300 sub-box-box1-col-input"
+                        name="address" 
+                        defaultValue={newLoans.address}
+                        placeholder={"Enter Address"}
                         onChange={handleInputChange}                 
                       />
                     </div>
@@ -289,4 +298,4 @@ const handleInputChange2 = (selectedOption) => {
     );
   }
   
-export default NewUsers 
+export default NewUsers
