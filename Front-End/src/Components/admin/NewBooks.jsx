@@ -376,7 +376,7 @@ const handleInputChange2 = (selectedOption) => {
                 <div className="col-span-1 sub-box-box1-col">
                     <p className="text-gray-700 font-semibold sub-box-box1-col-header">Author</p>
                     <div className="mt-auto">
-                    <input
+                    <input required
                         type="text"
                         className="border border-gray-300 sub-box-box1-col-input"
                         name="author" 
@@ -391,7 +391,7 @@ const handleInputChange2 = (selectedOption) => {
                 <div className="col-span-1 sub-box-box1-col">
                     <p className="text-gray-700 font-semibold sub-box-box1-col-header">Publication</p>
                     <div className="mt-auto">
-                    <input
+                    <input required
                         type="text"
                         className="border border-gray-300 sub-box-box1-col-input"
                         name="publication" 
@@ -404,7 +404,7 @@ const handleInputChange2 = (selectedOption) => {
                 <div className="col-span-1 sub-box-box1-col">
                     <p className="text-gray-700 font-semibold sub-box-box1-col-header">Synopsis</p>
                     <div className="mt-auto">
-                    <input
+                    <input required
                         type="text"
                         className="border border-gray-300 sub-box-box1-col-input"
                         name="synopsis" 
@@ -435,7 +435,7 @@ const handleInputChange2 = (selectedOption) => {
                 <div className="col-span-1 sub-box-box1-col">
                     <p className="text-gray-700 font-semibold sub-box-box1-col-header">Attach Photo (png, jpeg, jpg*)</p>
                     <div className="mt-auto">
-                    <input
+                    <input required
                         type="file"
                         name='file_url'
                         className="border border-gray-300 sub-box-box1-col-input-file"

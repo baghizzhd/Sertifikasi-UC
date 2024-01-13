@@ -242,7 +242,7 @@ const handleSubmit = async (e) => {
                 <div className="col-span-1 sub-box-box1-col">
                     <p className="text-gray-700 font-semibold sub-box-box1-col-header">Name</p>
                     <div className="mt-auto">
-                    <input
+                    <input required
                         type="text"
                         className="border border-gray-300 sub-box-box1-col-input"
                         name="name" 
@@ -255,7 +255,7 @@ const handleSubmit = async (e) => {
                 <div className="col-span-1 sub-box-box1-col">
                     <p className="text-gray-700 font-semibold sub-box-box1-col-header">Phone</p>
                     <div className="mt-auto">
-                    <input
+                    <input required
                         type="text"
                         className="border border-gray-300 sub-box-box1-col-input"
                         name="phone" 
@@ -270,7 +270,7 @@ const handleSubmit = async (e) => {
                 <div className="col-span-1 sub-box-box1-col">
                     <p className="text-gray-700 font-semibold sub-box-box1-col-header">Address</p>
                     <div className="mt-auto">
-                    <input
+                    <input required
                         type="text"
                         className="border border-gray-300 sub-box-box1-col-input"
                         name="address" 

@@ -434,7 +434,7 @@ const openImageInNewTab = () => {
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 sub-box-box1"> 
                 <div className="col-span-1 sub-box-box1-col">
-                  <p className="text-gray-700 font-semibold sub-box-box1-col-header">Image Preview</p>
+                  <p className="text-gray-700 font-semibold sub-box-box1-col-header">Book Preview</p>
                   <div className="mt-auto">
                     {loan.file_url && (
                       <img
