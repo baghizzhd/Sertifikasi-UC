@@ -20,6 +20,7 @@ import { jwtDecode } from 'jwt-decode';
 const EditLoans = () => {
   const { id } = useParams();
   const [isVerif, setIsVerif] = useState(null);  
+  const [imageSrc, setImageSrc] = useState(null);
   const fetchData = async () => {
     try {
       await refreshToken(); 
@@ -47,7 +48,8 @@ const EditLoans = () => {
     borrower: '',
     status:'',
     date_start: '',
-    date_return: ''
+    date_return: '',
+    file_url :''
   });
   
   const refreshToken = async () => {
@@ -134,7 +136,8 @@ const getData = async (token) => {
       borrower: loanData.borrower,
       status:loanData.status,
       date_start: loanData.date_start,
-      date_return:loanData.date_return
+      date_return:loanData.date_return,
+      file_url :loanData.file_url
       });
       console.log('Data Loan: ',loanData);
       setLoading(false);
@@ -190,6 +193,54 @@ const handleTicketUpdate = async () => {
       const formattedValue = e.target.type === 'date' ? formatDateForInput(value) : value;
       setDLoan({ ...loan, [name]: formattedValue });
       console.log('On Change : ',loan);
+  };
+
+  useEffect(() => {
+    if (loan.file_url) {
+      showImage();
+    }
+  }, [loan.file_url]);
+
+  const showImage = async () => {
+    try {
+      console.log('url: ',loan.file_url);
+      const file_url = encodeURIComponent(loan.file_url);
+      const response = await axios.get(`http://localhost:8000/show/${file_url}`);
+      setImageSrc(response.data.dataUrl);
+    } catch (error) {
+      console.error('Error fetching image:', error);
+    }
+  };
+
+  const openImageInNewTab = () => {
+    // Assuming response.data contains the dataUrl
+    const dataUrl = imageSrc;
+  
+    // Open a new tab with the image
+    const newTab = window.open('', '_blank');
+  
+    // Check if newTab is not null before accessing its document property
+    if (newTab) {
+      // Open the document for writing
+      newTab.document.open();
+  
+      // Write the image data to the new tab
+      newTab.document.write(`
+        <html>
+          <head>
+            <title>Image Preview</title>
+          </head>
+          <body>
+            <img src="${dataUrl}" alt="Image Preview">
+          </body>
+        </html>
+      `);
+  
+      // Close the document to ensure proper rendering
+      newTab.document.close();
+    } else {
+      console.error('Failed to open a new tab.');
+    }
   };
 
     const sidebarNavItems = [
@@ -365,6 +416,21 @@ const handleTicketUpdate = async () => {
                       />
                     </div>
                 </div>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 sub-box-box1"> 
+                <div className="col-span-1 sub-box-box1-col">
+                  <p className="text-gray-700 font-semibold sub-box-box1-col-header">Book Preview</p>
+                  <div className="mt-auto">
+                    {loan.file_url && (
+                      <img
+                        onClick={openImageInNewTab}
+                        src={imageSrc}
+                        alt="Preview"
+                        className="max-w-full max-h-32 cursor-pointer img-preview"
+                      />
+                    )}
+                  </div>
+                 </div>
               </div>
               <div className="grid grid-cols-1 sub-box-box1"> 
                 <div className="col-span-1 flex justify-end mt-2 mb-4 sub-box-box1-col">

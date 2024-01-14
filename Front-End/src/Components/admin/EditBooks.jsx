@@ -22,7 +22,6 @@ const EditBooks = () => {
   const { id } = useParams();
   const [isVerif, setIsVerif] = useState(null);  
   const [imageSrc, setImageSrc] = useState(null);
-  const [selectedFile, setSelectedFile] = useState(null);
   const fetchData = async () => {
     try {
       await refreshToken(); 
@@ -182,6 +181,7 @@ const handleChange = (e) => {
     const { name, value } = e.target;
     setDLoan({ ...loan, [name]: value });
 };
+
 const handleTicketUpdate = async () => {
     try {
       const selectedCategory = category.find(category => category.name === loan.category_id);

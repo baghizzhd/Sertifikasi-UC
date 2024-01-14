@@ -464,6 +464,7 @@ const getLoanDetails = async (req, res) => {
           l.id,   
           b.title,
           u.name AS "borrower",
+          b.file_url,
           CASE 
               WHEN l.status = 1 THEN 'Done'
               ELSE 'On Going'
@@ -543,6 +544,26 @@ const getLUsersDetails = async (req, res) => {
       });
   }
 };
+
+const getBooksUrl = async (req, res) => {
+  try {
+      const { id } = req.params ;
+      const [ticket] = await db.query(
+          `SELECT file_url from books
+          WHERE id = ${id}`);
+      res.json({
+          result: true,
+          user: ticket,
+          message: 'Successfully fetching data book url',
+      });
+  } catch (err) {
+      console.error('Error fetching data book detail:', err);
+      res.status(500).json({
+          error: 'Internal server error',
+      });
+  }
+};
+
 
 const updateLoan = async (req, res) => {
   const { id } = req.params;
@@ -752,5 +773,6 @@ module.exports = {
     getLUsersDetails,
     updateUser,
     showFile,
-    updateLoanStatus
+    updateLoanStatus,
+    getBooksUrl
 };

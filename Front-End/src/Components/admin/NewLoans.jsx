@@ -14,7 +14,6 @@ import { LiaUsersCogSolid } from "react-icons/lia";
 import { LuBookMarked } from "react-icons/lu";
 import { LuBookPlus } from "react-icons/lu";
 import { LuLogOut } from "react-icons/lu";
-import { FiUser } from "react-icons/fi";
 import { jwtDecode } from 'jwt-decode';
 import Select from 'react-select';
 
@@ -23,6 +22,8 @@ import Select from 'react-select';
 const NewLoans = () => {
   const [isVerif, setIsVerif] = useState(null);
   const [books, setBooks] = useState({  id:'',name: '' }); 
+  const [imageSrc, setImageSrc] = useState({  url:''}); 
+  const [imageSrc2, setImageSrc2] = useState(null);
   
   const fetchData = async () => {
     try {
@@ -201,18 +202,45 @@ axiosJWT.interceptors.request.use(async (config) => {
             ...newLoans,
             [name]: value,
         });
-        console.log(`${name} changed to: ${value}`);
     }
 };
-
-const handleInputChange2 = (selectedOption) => {
+const handleInputChange2 = async (selectedOption) => {
   const value = selectedOption ? selectedOption.value : "";
   setSelectedBooks(selectedOption); 
   setNewLoans({
     ...newLoans,
     book_id: value,
   });
+  await handleUpdateId(value);
 };
+
+const handleUpdateId = async (id) => {
+  try {
+    const response = await axios.get(`http://localhost:8000/getbooksurl/${id}`);
+    const Data = response.data.user[0];
+    setImageSrc({url : Data.file_url});
+  } catch (error) {
+    console.error("Error get book url:", error);
+  }
+};
+
+useEffect(() => {
+  // This useEffect will run whenever imageSrc.url changes
+  if (imageSrc.url) {
+    showImage();
+  }
+}, [imageSrc.url]);
+
+const showImage = async () => {
+  try {
+    const file_url = encodeURIComponent(imageSrc.url);
+    const response = await axios.get(`http://localhost:8000/show/${file_url}`);
+    setImageSrc2(response.data.dataUrl);
+  } catch (error) {
+    console.error('Error fetching image:', error);
+  }
+};
+
 const handleInputChange3 = (selectedOption) => {
     const value = selectedOption ? selectedOption.value : "";
     setSelectedUsers(selectedOption);  
@@ -288,6 +316,37 @@ const handleInputChange3 = (selectedOption) => {
         // Format the date as yyyy-mm-dd (HTML date input format)
         return `${year}-${month}-${day}`;
       }
+
+      const openImageInNewTab = () => {
+        // Assuming response.data contains the dataUrl
+        const dataUrl = imageSrc.url;
+      
+        // Open a new tab with the image
+        const newTab = window.open('', '_blank');
+      
+        // Check if newTab is not null before accessing its document property
+        if (newTab) {
+          // Open the document for writing
+          newTab.document.open();
+      
+          // Write the image data to the new tab
+          newTab.document.write(`
+            <html>
+              <head>
+                <title>Image Preview</title>
+              </head>
+              <body>
+                <img src="${dataUrl}" alt="Image Preview">
+              </body>
+            </html>
+          `);
+      
+          // Close the document to ensure proper rendering
+          newTab.document.close();
+        } else {
+          console.error('Failed to open a new tab.');
+        }
+      };
 
     const sidebarNavItems = [
         {
@@ -439,6 +498,23 @@ const handleInputChange3 = (selectedOption) => {
                       />
                     </div>
                 </div>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 sub-box-box1"> 
+                <div className="col-span-1 sub-box-box1-col">
+                  <p className="text-gray-700 font-semibold sub-box-box1-col-header">Book Preview</p>
+                  <div className="mt-auto">
+                   {imageSrc2 ? (
+                      <img
+                        onClick={openImageInNewTab}
+                        src={imageSrc2}
+                        alt="Preview"
+                        className="max-w-full max-h-32 cursor-pointer img-preview"
+                      />
+                    ) : (
+                      <p className='font-semibold'>No books chosen*</p>
+                    )}
+                  </div>
+                 </div>
               </div>
               <div className="grid grid-cols-1 sub-box-box1"> 
                 <div className="col-span-1 flex justify-end mt-2 mb-4 sub-box-box1-col">
